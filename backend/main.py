@@ -22,6 +22,15 @@ def create_todo(todo: TodoItem):
     todos.append(todo)
     return todo
 
+@app.post("/todos/complete/{todo_id}")
+def complete_todo(todo_id: int):
+    global todos
+    for todo in todos:
+        if todo.id == todo_id:
+            todo.completed = True
+            return {"message": "Todo marked as completed", "todo": todo}
+    return {"error": "Todo not found"}, 404
+    
 @app.delete("/todos/{todo_id}")
 def delete_todo(todo_id: int):
     global todos
